@@ -63,7 +63,14 @@ The API includes 3 sample products for demonstration:
 4. **Run the application**
 
    ```bash
-   go run server.go
+   # Development mode (HTTP)
+   go run cmd/server/main.go
+
+   # Or with make command (if you have Makefile)
+   make run
+
+   # Production mode (HTTPS) - requires SSL certificates
+   PRODUCTION=true go run cmd/server/main.go
    ```
 
    The server will start at http://localhost:4242
@@ -140,9 +147,13 @@ Server is up and running!
 
 ### Environment Variables
 
-| Variable            | Description           | Required |
-| ------------------- | --------------------- | -------- |
-| `STRIPE_SECRET_KEY` | Stripe secret API key | ✅       |
+| Variable            | Description                    | Required | Default  |
+| ------------------- | ------------------------------ | -------- | -------- |
+| `STRIPE_SECRET_KEY` | Stripe secret API key          | ✅       | -        |
+| `PORT`              | Server port                    | ❌       | 4242     |
+| `PRODUCTION`        | Enable production mode (HTTPS) | ❌       | false    |
+| `TLS_CERT_PATH`     | Path to TLS certificate        | ❌       | cert.pem |
+| `TLS_KEY_PATH`      | Path to TLS private key        | ❌       | key.pem  |
 
 ### Stripe Configuration
 
@@ -157,17 +168,41 @@ Server is up and running!
 
 ## 🏗️ Project Structure
 
+This project follows Go's standard project layout for better maintainability and scalability:
+
 ```
 ecommerce-api-go/
-├── 📁 .env.example          # Environment variables template
-├── 📁 .gitignore           # Git ignore file
-├── 📁 docker-compose.yml   # Docker Compose configuration
-├── 📁 Dockerfile          # Docker image definition
-├── 📁 go.mod              # Go module file
-├── 📁 go.sum              # Go dependencies checksums
-├── 📁 README.md           # Project documentation
-└── 📁 server.go           # Main application file
+├── 📁 cmd/
+│   └── 📁 server/              # Application entrypoint
+│       └── main.go             # Main application
+├── 📁 internal/                # Private application code
+│   ├── 📁 config/              # Configuration management
+│   │   └── config.go           # Environment variables & settings
+│   ├── 📁 handlers/            # HTTP handlers
+│   │   ├── payment.go          # Payment processing handlers
+│   │   └── health.go           # Health check handler
+│   ├── 📁 middleware/          # HTTP middleware
+│   │   └── middleware.go       # Rate limiting, logging, CORS
+│   ├── 📁 models/              # Data structures
+│   │   └── payment.go          # Request/response models
+│   └── 📁 validation/          # Input validation
+│       └── payment.go          # Payment request validation
+├── 📁 .env.example             # Environment variables template
+├── 📁 .gitignore              # Git ignore file
+├── 📁 docker-compose.yml      # Docker Compose configuration
+├── 📁 Dockerfile             # Docker image definition
+├── 📁 go.mod                 # Go module file
+├── 📁 go.sum                 # Go dependencies checksums
+└── 📁 README.md             # Project documentation
 ```
+
+### Key Architecture Benefits
+
+- **📁 Modular Design**: Each package has a single responsibility
+- **🔒 Internal Package**: Private code that can't be imported by other projects
+- **🎯 Clear Separation**: Handlers, middleware, models, and validation are separated
+- **📈 Scalable**: Easy to add new features and maintain existing code
+- **🧪 Testable**: Each component can be tested independently
 
 ## 🧪 Testing
 
