@@ -23,8 +23,8 @@ func main() {
 	http.HandleFunc("/create-payment-intent", handleCreatePaymentIntent)
 	http.HandleFunc("/health", handleHealth)
 
-	log.Println("Listening on localhost:4242")
-	var err = http.ListenAndServe("localhost:4242", nil)
+	log.Println("Listening on port 4242")
+	var err = http.ListenAndServe(":4242", nil)
 
 	if err != nil {
 		log.Fatal(err)

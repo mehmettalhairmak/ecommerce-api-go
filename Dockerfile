@@ -11,14 +11,16 @@ COPY . .
 RUN go build -o server .
 
 # --- final image ---
-FROM debian:bullseye-slim
+FROM debian:bookworm-slim
 
 WORKDIR /root/
 
-# Sadece binary'yi al
+
 COPY --from=builder /app/server .
 
-# Port aç
+RUN apt-get update && apt-get install -y ca-certificates && rm -rf /var/lib/apt/lists/*
+
+
 EXPOSE 4242
 
 # Uygulamayı başlat
