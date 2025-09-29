@@ -37,9 +37,9 @@ func LoggingMiddleware(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		start := time.Now()
 		log.Printf("Request: %s %s from %s", r.Method, r.URL.Path, r.RemoteAddr)
-		
+
 		next(w, r)
-		
+
 		duration := time.Since(start)
 		log.Printf("Request completed in %v", duration)
 	}

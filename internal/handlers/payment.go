@@ -50,7 +50,7 @@ func (h *PaymentHandler) CreatePaymentIntent(w http.ResponseWriter, r *http.Requ
 
 	// Calculate amount
 	amount := h.calculateOrderAmount(req.ProductId)
-	log.Printf("Creating payment intent for product %s, amount: $%.2f", 
+	log.Printf("Creating payment intent for product %s, amount: $%.2f",
 		req.ProductId, float64(amount)/100)
 
 	// Create Stripe payment intent
@@ -87,13 +87,13 @@ func (h *PaymentHandler) CreatePaymentIntent(w http.ResponseWriter, r *http.Requ
 func (h *PaymentHandler) calculateOrderAmount(productId string) int64 {
 	switch productId {
 	case "Forever Pants":
-		return 26000  // $260.00
+		return 26000 // $260.00
 	case "Forever Shirt":
-		return 15500  // $155.00
+		return 15500 // $155.00
 	case "Forever Shorts":
-		return 30000  // $300.00
+		return 30000 // $300.00
 	default:
-		return 0      // Invalid product
+		return 0 // Invalid product
 	}
 }
 
@@ -101,11 +101,11 @@ func (h *PaymentHandler) calculateOrderAmount(productId string) int64 {
 func (h *PaymentHandler) respondWithError(w http.ResponseWriter, message string, statusCode int) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(statusCode)
-	
+
 	response := models.PaymentResponse{
 		Error: message,
 	}
-	
+
 	if err := json.NewEncoder(w).Encode(response); err != nil {
 		log.Printf("Error encoding error response: %v", err)
 	}

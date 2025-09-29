@@ -26,27 +26,27 @@ func (v *PaymentValidator) ValidatePaymentRequest(req models.PaymentRequest) err
 	if strings.TrimSpace(req.ProductId) == "" {
 		return errors.New("product_id is required")
 	}
-	
+
 	if strings.TrimSpace(req.FirstName) == "" {
 		return errors.New("first_name is required")
 	}
-	
+
 	if strings.TrimSpace(req.LastName) == "" {
 		return errors.New("last_name is required")
 	}
-	
+
 	if strings.TrimSpace(req.Address1) == "" {
 		return errors.New("address_1 is required")
 	}
-	
+
 	if strings.TrimSpace(req.City) == "" {
 		return errors.New("city is required")
 	}
-	
+
 	if strings.TrimSpace(req.State) == "" {
 		return errors.New("state is required")
 	}
-	
+
 	if strings.TrimSpace(req.Country) == "" {
 		return errors.New("country is required")
 	}

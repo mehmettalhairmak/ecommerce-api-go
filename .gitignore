@@ -50,7 +50,8 @@ pids
 # Build output
 dist/
 build/
-server
+/server
+ecommerce-api-go
 
 # Docker
 .dockerignore
